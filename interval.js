@@ -10,8 +10,13 @@
                 : spec.lo),
             hi = Math.max(spec.hi, spec.lo !== undefined
                 ? spec.lo
-                : spec.hi);
+                : spec.hi),
 
-        return Object.freeze({lo, hi});
+            overlaps = function (spec) {
+                const interval = spec.interval;
+                return hi > interval.lo && lo < interval.hi;
+            };
+
+        return Object.freeze({lo, hi, overlaps});
     };
 }());

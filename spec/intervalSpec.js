@@ -41,8 +41,38 @@
 
         describe(".lo is greater than .hi", function () {
             it("should equal interval when .lo is less than .hi", function () {
-                expect(interval({lo: 1, hi: 0}))
-                    .toEqual(interval({lo: 0, hi: 1}));
+                const i = interval({lo: 1, hi: 0});
+                const j = interval({lo: 0, hi: 1});
+                expect({lo: i.lo, hi: i.hi}).toEqual({lo: j.lo, hi: j.hi});
+            });
+        });
+
+        describe("overlaps()", function () {
+            describe("simple overlap", function () {
+                it("should return true", function () {
+                    const i = interval({lo: 0, hi: 2});
+                    const j = interval({lo: 1, hi: 3});
+
+                    expect(i.overlaps({interval: j})).toBe(true);
+                });
+            });
+
+            describe("interval before another interval", function () {
+                it("should return false", function () {
+                    const i = interval({lo: 0, hi: 1});
+                    const j = interval({lo: 2, hi: 3});
+
+                    expect(i.overlaps({interval: j})).toBe(false);
+                });
+            });
+
+            describe("interval after another interval", function () {
+                it("should return false", function () {
+                    const i = interval({lo: 2, hi: 3});
+                    const j = interval({lo: 0, hi: 1});
+
+                    expect(i.overlaps({interval: j})).toBe(false);
+                });
             });
         });
     });
