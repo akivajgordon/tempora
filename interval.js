@@ -3,23 +3,55 @@
 (function () {
     "use strict";
 
-    module.exports = function (spec) {
-        const
-            lo = Math.min(spec.lo !== undefined
-                ? spec.lo
-                : spec.hi, spec.hi !== undefined
-                ? spec.hi
-                : spec.lo),
-            hi = Math.max(spec.hi !== undefined
-                ? spec.hi
-                : spec.lo, spec.lo !== undefined
-                ? spec.lo
-                : spec.hi),
+    const simpleComparator = {
+        eq: (l, r) => l === r,
+        lt: (l, r) => l < r
+    };
 
-            overlaps = function (spec) {
-                const interval = spec.interval;
-                return hi > interval.lo && lo < interval.hi;
-            };
+    const comparable = function (spec) {
+        let comparator = Object.assign({}, spec.comparator);
+
+        comparator.gt = (l, r) => !comparator.eq(l, r) && !comparator.lt(l, r);
+
+        return Object.freeze(comparator);
+    };
+
+    module.exports = function (spec) {
+        const comp = comparable({comparator: spec.comparator || simpleComparator});
+
+        const lo = (function () {
+            const l = spec.lo !== undefined
+                ? spec.lo
+                : spec.hi;
+            const h = spec.hi !== undefined
+                ? spec.hi
+                : spec.lo;
+
+            if (comp.lt(l, h)) {
+                return l;
+            }
+            return h;
+        }());
+
+        const hi = (function () {
+            const l = spec.lo !== undefined
+                ? spec.lo
+                : spec.hi;
+            const h = spec.hi !== undefined
+                ? spec.hi
+                : spec.lo;
+
+            if (comp.gt(h, l)) {
+                return h;
+            }
+            return l;
+        }());
+
+        const overlaps = function (spec) {
+            const interval = spec.interval;
+
+            return comp.gt(hi, interval.lo) && comp.lt(lo, interval.hi);
+        };
 
         return Object.freeze({lo, hi, overlaps});
     };

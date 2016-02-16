@@ -98,6 +98,25 @@
                     expect(i.overlaps({interval: j})).toBe(false);
                 });
             });
+
+            describe("custom comparator", function () {
+                describe("overlapping size intervals", function () {
+                    it("should return true", function () {
+                        const sizeComparator = {
+                            eq: (l, r) => l === r,
+                            lt: function (l, r) {
+                                const sizes = ['xs', 's', 'm', 'l', 'xl'];
+
+                                return sizes.indexOf(l) < sizes.indexOf(r);
+                            }
+                        };
+                        const i = interval({lo: 's', hi: 'l', comparator: sizeComparator});
+                        const j = interval({lo: 'xs', hi: 'm', comparator: sizeComparator});
+
+                        expect(i.overlaps({interval: j})).toBe(true);
+                    });
+                });
+            });
         });
     });
 }());
