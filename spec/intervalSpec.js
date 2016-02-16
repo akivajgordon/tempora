@@ -23,6 +23,18 @@
                     expect(interval({lo: 1}).lo).toBe(1);
                 });
             });
+
+            describe("when not setting .lo and setting .hi to 0", function () {
+                it("should be 0", function () {
+                    expect(interval({hi: 0}).lo).toBe(0);
+                });
+            });
+
+            describe("when not setting .lo and setting .hi to 1", function () {
+                it("should be 1", function () {
+                    expect(interval({hi: 1}).lo).toBe(1);
+                });
+            });
         });
 
         describe(".hi property", function () {
@@ -35,6 +47,18 @@
             describe("when setting .hi to 1", function () {
                 it("should be 1", function () {
                     expect(interval({hi: 1}).hi).toBe(1);
+                });
+            });
+
+            describe("when not setting .hi and setting .lo to 0", function () {
+                it("should be 0", function () {
+                    expect(interval({lo: 0}).hi).toBe(0);
+                });
+            });
+
+            describe("when not setting .hi and setting .lo to -1", function () {
+                it("should be -1", function () {
+                    expect(interval({lo: -1}).hi).toBe(-1);
                 });
             });
         });

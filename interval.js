@@ -5,10 +5,14 @@
 
     module.exports = function (spec) {
         const
-            lo = Math.min(spec.lo, spec.hi !== undefined
+            lo = Math.min(spec.lo !== undefined
+                ? spec.lo
+                : spec.hi, spec.hi !== undefined
                 ? spec.hi
                 : spec.lo),
-            hi = Math.max(spec.hi, spec.lo !== undefined
+            hi = Math.max(spec.hi !== undefined
+                ? spec.hi
+                : spec.lo, spec.lo !== undefined
                 ? spec.lo
                 : spec.hi),
 
