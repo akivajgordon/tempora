@@ -53,6 +53,10 @@
             return comp.gt(hi, interval.lo) && comp.lt(lo, interval.hi);
         };
 
-        return Object.freeze({lo, hi, overlaps});
+        const equalsInterval = function (interval) {
+            return lo === interval.lo && hi === interval.hi;
+        };
+
+        return Object.freeze({lo, hi, overlaps, equalsInterval});
     };
 }());

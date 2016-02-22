@@ -118,5 +118,25 @@
                 });
             });
         });
+
+        describe("equalsInterval()", function () {
+            describe("two intervals with same lo and hi", function () {
+                it("should be true", function () {
+                    const i = interval({lo: 0, hi: 1});
+                    const j = interval({lo: 0, hi: 1});
+
+                    expect(i.equalsInterval(j)).toBe(true);
+                });
+            });
+
+            describe("two intervals with different lo and hi", function () {
+                it("should be false", function () {
+                    const i = interval({lo: 0, hi: 1});
+                    const j = interval({lo: 2, hi: 3});
+
+                    expect(i.equalsInterval(j)).toBe(false);
+                });
+            });
+        });
     });
 }());
