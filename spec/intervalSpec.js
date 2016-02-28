@@ -10,6 +10,15 @@
         it = global.it,
         expect = global.expect;
 
+    const sizeComparator = {
+        eq: (l, r) => l === r,
+        lt: function (l, r) {
+            const sizes = ['xs', 's', 'm', 'l', 'xl'];
+
+            return sizes.indexOf(l) < sizes.indexOf(r);
+        }
+    };
+
     describe("interval", function () {
         describe(".lo", function () {
             describe("when setting .lo to 0", function () {
@@ -102,14 +111,6 @@
             describe("custom comparator", function () {
                 describe("overlapping size intervals", function () {
                     it("should return true", function () {
-                        const sizeComparator = {
-                            eq: (l, r) => l === r,
-                            lt: function (l, r) {
-                                const sizes = ['xs', 's', 'm', 'l', 'xl'];
-
-                                return sizes.indexOf(l) < sizes.indexOf(r);
-                            }
-                        };
                         const i = interval({lo: 's', hi: 'l', comparator: sizeComparator});
                         const j = interval({lo: 'xs', hi: 'm', comparator: sizeComparator});
 
@@ -135,6 +136,26 @@
                     const j = interval({lo: 2, hi: 3});
 
                     expect(i.equalsInterval(j)).toBe(false);
+                });
+            });
+        });
+
+        describe("compare()", function () {
+            describe("interval with low less than other low", function () {
+                it("should return a negative number", function () {
+                    const i = interval({lo: 0, hi: 1});
+                    const j = interval({lo: 2, hi: 3});
+
+                    expect(i.compare(j)).toBeLessThan(0);
+                });
+            });
+
+            describe("interval with low greater than other low", function () {
+                it("should return a positive number", function () {
+                    const i = interval({lo: 'm', hi: 'xl', comparator: sizeComparator});
+                    const j = interval({lo: 's', hi: 'l', comparator: sizeComparator});
+
+                    expect(i.compare(j)).toBeGreaterThan(0);
                 });
             });
         });
