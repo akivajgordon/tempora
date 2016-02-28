@@ -3,14 +3,23 @@
 (function () {
     "use strict";
 
+    // const interval = require('./interval.js');
+
     module.exports = function () {
-        const intervals = function () {
-            return [];
+        let intervals = [];
+
+        const getIntervals = function () {
+            return intervals;
+        };
+
+        const insert = function (interval) {
+            intervals.push(interval);
         };
 
 
         return Object.freeze({
-            intervals
+            intervals: getIntervals,
+            insert
         });
     };
 }());
