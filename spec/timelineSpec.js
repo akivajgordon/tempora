@@ -83,6 +83,28 @@
                     ]);
                 });
             });
+
+            describe("two overlapping intervals", function () {
+                it("should be one joined interval", function () {
+                    t.insert(interval({lo: 0, hi: 2}));
+                    t.insert(interval({lo: 1, hi: 3}));
+
+                    expect(t.intervals()).toEqual([
+                        interval({lo: 0, hi: 3})
+                    ]);
+                });
+            });
+
+            describe("another two overlapping intervals", function () {
+                it("should be one joined interval", function () {
+                    t.insert(interval({lo: 2, hi: 5}));
+                    t.insert(interval({lo: 4, hi: 10}));
+
+                    expect(t.intervals()).toEqual([
+                        interval({lo: 2, hi: 10})
+                    ]);
+                });
+            });
         });
     });
 }());
