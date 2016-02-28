@@ -69,6 +69,20 @@
                     ]);
                 });
             });
+
+            describe("three unordered (non-overlapping) intervals", function () {
+                it("should be sorted by lo value", function () {
+                    t.insert(interval({lo: 5, hi: 10}));
+                    t.insert(interval({lo: 0, hi: 1}));
+                    t.insert(interval({lo: 2, hi: 3}));
+
+                    expect(t.intervals()).toEqual([
+                        interval({lo: 0, hi: 1}),
+                        interval({lo: 2, hi: 3}),
+                        interval({lo: 5, hi: 10})
+                    ]);
+                });
+            });
         });
     });
 }());

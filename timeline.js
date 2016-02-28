@@ -9,7 +9,9 @@
         let intervals = [];
 
         const getIntervals = function () {
-            return intervals;
+            return intervals.sort(function (interval, other) {
+                return interval.compare(other);
+            });
         };
 
         const insert = function (interval) {
