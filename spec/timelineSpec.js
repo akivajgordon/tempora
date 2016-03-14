@@ -105,6 +105,22 @@
                     ]);
                 });
             });
+
+            describe("internal overlapping intervals", function () {
+                it("should join the internal overlapping intervals", function () {
+                    t.insert(interval({lo: 0, hi: 1}));
+                    t.insert(interval({lo: 2, hi: 3}));
+                    t.insert(interval({lo: 4, hi: 5}));
+                    t.insert(interval({lo: 6, hi: 7}));
+                    t.insert(interval({lo: 2.5, hi: 5.5}));
+
+                    expect(t.intervals()).toEqual([
+                        interval({lo: 0, hi: 1}),
+                        interval({lo: 2, hi: 5.5}),
+                        interval({lo: 6, hi: 7})
+                    ]);
+                });
+            });
         });
     });
 }());

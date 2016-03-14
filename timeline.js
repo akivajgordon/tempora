@@ -13,22 +13,51 @@
         };
 
         const insert = function (anInterval) {
-            intervals.push(anInterval);
-
             intervals.sort(function (interval, other) {
                 return interval.compare(other);
             });
 
-            const firstInterval = intervals[0];
-            const secondInterval = intervals[1];
+            const insertionStartIndex = intervals
+                .filter((interval) => anInterval.takesPlaceAfter(interval))
+                .length;
 
-            if (secondInterval && firstInterval.overlaps({interval: secondInterval})) {
+            const overlapCount = intervals
+                .filter((interval) => anInterval.overlaps({interval}))
+                .length;
 
-                intervals = [interval({
-                    lo: firstInterval.lo,
-                    hi: secondInterval.hi
-                })];
-            }
+            const lo = (function () {
+                if (insertionStartIndex >= intervals.length) {
+                    return anInterval.lo;
+                }
+
+                const clampedInsertionIndex = Math.min(insertionStartIndex, intervals.length - 1);
+
+                const earlierInterval = anInterval.startsBefore(intervals[clampedInsertionIndex])
+                    ? anInterval
+                    : intervals[insertionStartIndex];
+
+                return earlierInterval.lo;
+            }());
+
+            const hi = (function () {
+                const insertionEndIndex = insertionStartIndex + overlapCount - 1;
+
+                if (insertionEndIndex < 0 || insertionEndIndex >= intervals.length) {
+                    return anInterval.hi;
+                }
+
+                const laterInterval = anInterval.endsAfter(intervals[insertionEndIndex])
+                    ? anInterval
+                    : intervals[insertionEndIndex];
+
+                return laterInterval.hi;
+            }());
+
+            intervals.splice(
+                insertionStartIndex,
+                overlapCount,
+                interval({lo, hi})
+            );
         };
 
 
