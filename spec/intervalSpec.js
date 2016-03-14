@@ -159,5 +159,88 @@
                 });
             });
         });
+
+        describe("takesPlaceAfter()", function () {
+            describe("interval with lo before other high", function () {
+                it("should return false", function () {
+                    const i = interval({lo: 0, hi: 2});
+                    const j = interval({lo: 1, hi: 3});
+
+                    expect(j.takesPlaceAfter(i)).toBe(false);
+                });
+            });
+
+            describe("interval with lo after other high", function () {
+                it("should return true", function () {
+                    const i = interval({lo: 0, hi: 1});
+                    const j = interval({lo: 2, hi: 3});
+
+                    expect(j.takesPlaceAfter(i)).toBe(true);
+                });
+            });
+
+            describe("interval with lo size after other high size", function () {
+                it("should return true", function () {
+                    const i = interval({lo: 's', hi: 'm', comparator: sizeComparator});
+                    const j = interval({lo: 'l', hi: 'xl', comparator: sizeComparator});
+
+                    expect(j.takesPlaceAfter(i)).toBe(true);
+                });
+            });
+        });
+
+        describe("toString()", function () {
+            describe("simple interval", function () {
+                it("should look like '{lo, hi}'", function () {
+                    expect(interval({lo: 0, hi: 1}).toString()).toBe('{0, 1}');
+                });
+            });
+
+            describe("a reversed interval", function () {
+                it("should look like '{lo, hi}'", function () {
+                    expect(interval({lo: 2, hi: 0}).toString()).toBe('{0, 2}');
+                });
+            });
+        });
+
+        describe("startsBefore()", function () {
+            describe("an interval that starts before", function () {
+                it("should return true", function () {
+                    const i = interval({lo: 0, hi: 2});
+                    const j = interval({lo: 1, hi: 3});
+
+                    expect(i.startsBefore(j)).toBe(true);
+                });
+            });
+
+            describe("a size that starts after", function () {
+                it("should return false", function () {
+                    const i = interval({lo: 'm', hi: 'l', comparator: sizeComparator});
+                    const j = interval({lo: 's', hi: 'l', comparator: sizeComparator});
+
+                    expect(i.startsBefore(j)).toBe(false);
+                });
+            });
+        });
+
+        describe("endsAfter()", function () {
+            describe("an interval that ends after", function () {
+                it("should return true", function () {
+                    const i = interval({lo: 0, hi: 2});
+                    const j = interval({lo: 0, hi: 1});
+
+                    expect(i.endsAfter(j)).toBe(true);
+                });
+            });
+
+            describe("a size that ends before", function () {
+                it("should return false", function () {
+                    const i = interval({lo: 'm', hi: 'l', comparator: sizeComparator});
+                    const j = interval({lo: 's', hi: 'xl', comparator: sizeComparator});
+
+                    expect(i.endsAfter(j)).toBe(false);
+                });
+            });
+        });
     });
 }());

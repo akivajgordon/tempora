@@ -57,12 +57,29 @@
             return lo === interval.lo && hi === interval.hi;
         };
 
+        const startsBefore = function (interval) {
+            return comp.lt(lo, interval.lo);
+        };
+
+        const endsAfter = function (interval) {
+            return comp.gt(hi, interval.hi);
+        };
+
+        const takesPlaceAfter = function (interval) {
+            return comp.gt(lo, interval.hi);
+        };
+
         const compare = function (interval) {
-            return comp.lt(lo, interval.lo)
+            return startsBefore(interval)
                 ? -1
                 : 1;
         };
 
-        return Object.freeze({lo, hi, overlaps, equalsInterval, compare});
+
+        const toString = function () {
+            return `{${lo}, ${hi}}`;
+        };
+
+        return Object.freeze({lo, hi, overlaps, equalsInterval, compare, takesPlaceAfter, toString, startsBefore, endsAfter});
     };
 }());
