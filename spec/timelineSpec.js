@@ -5,6 +5,7 @@
 
     const timeline = require('../timeline.js');
     const interval = require('../interval.js');
+    const sizeComparator = require('./fixtures/sizeComparator.js');
 
     const jasmine = global.jasmine;
     const describe = global.describe;
@@ -55,6 +56,14 @@
                     expect(t.intervals()).toEqual([
                         interval({lo: 2, hi: 3})
                     ]);
+                });
+            });
+
+            describe("size interval", function () {
+                it("should be same as input interval", function () {
+                    t.insert(interval({lo: 's', hi: 'l', comparator: sizeComparator}));
+
+                    expect(t.intervals()).toEqual([interval({lo: 's', hi: 'l', comparator: sizeComparator})]);
                 });
             });
 
@@ -118,6 +127,26 @@
                         interval({lo: 0, hi: 1}),
                         interval({lo: 2, hi: 5.5}),
                         interval({lo: 6, hi: 7})
+                    ]);
+                });
+            });
+
+            describe("intervals that meet", function () {
+                it("should join the intervals", function () {
+                    t.insert(interval({lo: 2, hi: 3}));
+                    t.insert(interval({lo: 0, hi: 2}));
+
+                    expect(t.intervals()).toEqual([interval({lo: 0, hi: 3})]);
+                });
+            });
+
+            describe("size intervals that meet", function () {
+                it("should join the intervals", function () {
+                    t.insert(interval({lo: 's', hi: 'm', comparator: sizeComparator}));
+                    t.insert(interval({lo: 'm', hi: 'l', comparator: sizeComparator}));
+
+                    expect(t.intervals()).toEqual([
+                        interval({lo: 's', hi: 'l', comparator: sizeComparator})
                     ]);
                 });
             });

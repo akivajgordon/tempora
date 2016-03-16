@@ -22,7 +22,7 @@
                 .length;
 
             const overlapCount = intervals
-                .filter((interval) => anInterval.overlaps({interval}))
+                .filter((interval) => anInterval.overlaps({interval}) || anInterval.meets(interval))
                 .length;
 
             const lo = (function () {
@@ -56,7 +56,7 @@
             intervals.splice(
                 insertionStartIndex,
                 overlapCount,
-                interval({lo, hi})
+                interval({lo, hi, comparator: anInterval.comparator})
             );
         };
 
