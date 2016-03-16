@@ -80,6 +80,10 @@
             return `{${lo}, ${hi}}`;
         };
 
-        return Object.freeze({lo, hi, overlaps, equalsInterval, compare, takesPlaceAfter, toString, startsBefore, endsAfter});
+        const meets = function (interval) {
+            return comp.eq(hi, interval.lo) || comp.eq(lo, interval.hi);
+        };
+
+        return Object.freeze({lo, hi, overlaps, equalsInterval, compare, takesPlaceAfter, toString, startsBefore, endsAfter, comparator: comp, meets});
     };
 }());

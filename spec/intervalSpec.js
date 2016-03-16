@@ -5,19 +5,14 @@
 
     const
         interval = require('../interval.js'),
+        sizeComparator = require('./fixtures/sizeComparator.js'),
+        momentComparator = require('./fixtures/momentComparator.js'),
+        moment = require('moment'),
 
         describe = global.describe,
         it = global.it,
         expect = global.expect;
 
-    const sizeComparator = {
-        eq: (l, r) => l === r,
-        lt: function (l, r) {
-            const sizes = ['xs', 's', 'm', 'l', 'xl'];
-
-            return sizes.indexOf(l) < sizes.indexOf(r);
-        }
-    };
 
     describe("interval", function () {
         describe(".lo", function () {
@@ -239,6 +234,35 @@
                     const j = interval({lo: 's', hi: 'xl', comparator: sizeComparator});
 
                     expect(i.endsAfter(j)).toBe(false);
+                });
+            });
+        });
+
+        describe("meets()", function () {
+            describe("two unmeeting intervals", function () {
+                it("should return false", function () {
+                    const i = interval({lo: 0, hi: 1});
+                    const j = interval({lo: 2, hi: 3});
+
+                    expect(i.meets(j)).toBe(false);
+                });
+            });
+
+            describe("two meeting moment intervals at lo end", function () {
+                it("should return true", function () {
+                    const i = interval({lo: moment('2015-11-02'), hi: moment('2015-12-21'), comparator: momentComparator});
+                    const j = interval({lo: moment('2015-12-21'), hi: moment('2015-12-31'), comparator: momentComparator});
+
+                    expect(i.meets(j)).toBe(true);
+                });
+            });
+
+            describe("two meeting moment intervals at lo end", function () {
+                it("should return true", function () {
+                    const i = interval({lo: moment('2015-12-21'), hi: moment('2015-12-31'), comparator: momentComparator});
+                    const j = interval({lo: moment('2015-11-02'), hi: moment('2015-12-21'), comparator: momentComparator});
+
+                    expect(i.meets(j)).toBe(true);
                 });
             });
         });
