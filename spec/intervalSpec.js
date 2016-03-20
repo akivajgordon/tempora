@@ -81,7 +81,7 @@
                     const i = interval({lo: 0, hi: 2});
                     const j = interval({lo: 1, hi: 3});
 
-                    expect(i.overlaps({interval: j})).toBe(true);
+                    expect(i.overlaps(j)).toBe(true);
                 });
             });
 
@@ -90,7 +90,7 @@
                     const i = interval({lo: 0, hi: 1});
                     const j = interval({lo: 2, hi: 3});
 
-                    expect(i.overlaps({interval: j})).toBe(false);
+                    expect(i.overlaps(j)).toBe(false);
                 });
             });
 
@@ -99,7 +99,7 @@
                     const i = interval({lo: 2, hi: 3});
                     const j = interval({lo: 0, hi: 1});
 
-                    expect(i.overlaps({interval: j})).toBe(false);
+                    expect(i.overlaps(j)).toBe(false);
                 });
             });
 
@@ -109,7 +109,7 @@
                         const i = interval({lo: 's', hi: 'l', comparator: sizeComparator});
                         const j = interval({lo: 'xs', hi: 'm', comparator: sizeComparator});
 
-                        expect(i.overlaps({interval: j})).toBe(true);
+                        expect(i.overlaps(j)).toBe(true);
                     });
                 });
             });

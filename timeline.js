@@ -24,7 +24,7 @@
                 .length;
 
             const overlapCount = intervals
-                .filter((interval) => anInterval.overlaps({interval}) || anInterval.meets(interval))
+                .filter((interval) => anInterval.overlaps(interval) || anInterval.meets(interval))
                 .length;
 
             const lo = (function () {

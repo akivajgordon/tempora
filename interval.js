@@ -47,9 +47,7 @@
             return l;
         }());
 
-        const overlaps = function (spec) {
-            const interval = spec.interval;
-
+        const overlaps = function (interval) {
             return comp.gt(hi, interval.lo) && comp.lt(lo, interval.hi);
         };
 
