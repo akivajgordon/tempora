@@ -62,9 +62,10 @@
             );
         };
 
-        const remove = function (interval) {
+        const remove = function (anInterval) {
             intervals = intervals.filter(function (existingInterval) {
-                return !(interval.startsBefore(existingInterval) && interval.endsAfter(existingInterval));
+                return !(interval(anInterval).startsBefore(interval(existingInterval))
+                        && interval(anInterval).endsAfter(interval(existingInterval)));
             });
         };
 

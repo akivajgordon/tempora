@@ -188,7 +188,7 @@
 
             describe("an interval that is not on the timeline", function () {
                 it("should be unchanged", function () {
-                    t.remove(interval({lo: moment('2016-04-13'), hi: moment('2016-04-15'), comparator: momentComparator}));
+                    t.remove({lo: moment('2016-04-13'), hi: moment('2016-04-15'), comparator: momentComparator});
 
                     expect(t.intervals()).toEqual(intervals);
                 });
@@ -196,7 +196,7 @@
 
             describe("an interval that overlaps the entire timeline", function () {
                 it("should be empty", function () {
-                    t.remove(interval({lo: moment('2016-01-01'), hi: moment('2016-12-31'), comparator: momentComparator}));
+                    t.remove({lo: moment('2016-01-01'), hi: moment('2016-12-31'), comparator: momentComparator});
 
                     expect(t.intervals()).toEqual([]);
                 });
@@ -204,7 +204,7 @@
 
             describe("an interval that ends before the first interval on the entire timeline", function () {
                 it("should be unchanged", function () {
-                    t.remove(interval({lo: moment('2016-01-01'), hi: moment('2016-01-31'), comparator: momentComparator}));
+                    t.remove({lo: moment('2016-01-01'), hi: moment('2016-01-31'), comparator: momentComparator});
 
                     expect(t.intervals()).toEqual(intervals);
                 });
@@ -212,7 +212,7 @@
 
             describe("interval that contains an existing timeline interval", function () {
                 it("should be all intervals except the contained one", function () {
-                    t.remove(interval({lo: moment('2016-03-01'), hi: moment('2016-04-01'), comparator: momentComparator}));
+                    t.remove({lo: moment('2016-03-01'), hi: moment('2016-04-01'), comparator: momentComparator});
 
                     expect(t.intervals()).toEqual([
                         {lo: moment('2016-02-23'), hi: moment('2016-02-25')},
