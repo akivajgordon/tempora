@@ -54,7 +54,7 @@
         };
 
         const equalsInterval = function (interval) {
-            return lo === interval.lo && hi === interval.hi;
+            return comp.eq(lo, interval.lo) && comp.eq(hi, interval.hi);
         };
 
         const startsBefore = function (interval) {

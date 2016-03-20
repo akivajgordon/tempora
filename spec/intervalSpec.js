@@ -133,6 +133,15 @@
                     expect(i.equalsInterval(j)).toBe(false);
                 });
             });
+
+            describe("two moment intervals with same lo and hi", function () {
+                it("should be true", function () {
+                    const i = interval({lo: moment('2016-01-01'), hi: moment('2016-01-03'), comparator: momentComparator});
+                    const j = interval({lo: moment('2016-01-01'), hi: moment('2016-01-03'), comparator: momentComparator});
+
+                    expect(i.equalsInterval(j)).toBe(true);
+                });
+            });
         });
 
         describe("compare()", function () {
