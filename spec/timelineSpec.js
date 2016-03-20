@@ -5,7 +5,9 @@
 
     const timeline = require('../timeline.js');
     const interval = require('../interval.js');
+    const moment = require('moment');
     const sizeComparator = require('./fixtures/sizeComparator.js');
+    const momentComparator = require('./fixtures/momentComparator.js');
 
     const jasmine = global.jasmine;
     const describe = global.describe;
@@ -24,6 +26,14 @@
     };
 
     describe("timeline", function () {
+        let t;
+
+        beforeEach(function () {
+            jasmine.addCustomEqualityTester(intervalsAreEqual);
+
+            t = timeline();
+        });
+
         describe("new instance", function () {
             it("should have 0 intervals", function () {
                 expect(timeline().intervals().length).toBe(0);
@@ -31,14 +41,6 @@
         });
 
         describe("intervals after inserting", function () {
-            let t;
-
-            beforeEach(function () {
-                jasmine.addCustomEqualityTester(intervalsAreEqual);
-
-                t = timeline();
-            });
-
             describe("simple interval", function () {
                 it("should be same as input interval", function () {
                     t.insert(interval({lo: 0, hi: 1}));
@@ -147,6 +149,56 @@
 
                     expect(t.intervals()).toEqual([
                         interval({lo: 's', hi: 'l', comparator: sizeComparator})
+                    ]);
+                });
+            });
+        });
+
+        describe("intervals after removing", function () {
+
+            const intervals = [
+                interval({lo: moment('2016-02-23'), hi: moment('2016-02-25'), comparator: momentComparator}),
+                interval({lo: moment('2016-03-13'), hi: moment('2016-03-15'), comparator: momentComparator}),
+                interval({lo: moment('2016-05-23'), hi: moment('2016-05-25'), comparator: momentComparator})
+            ];
+
+            beforeEach(function () {
+                intervals.forEach(function (interval) {
+                    t.insert(interval);
+                });
+            });
+
+            describe("an interval that is not on the timeline", function () {
+                it("should be unchanged", function () {
+                    t.remove(interval({lo: moment('2016-04-13'), hi: moment('2016-04-15'), comparator: momentComparator}));
+
+                    expect(t.intervals()).toEqual(intervals);
+                });
+            });
+
+            describe("an interval that overlaps the entire timeline", function () {
+                it("should be empty", function () {
+                    t.remove(interval({lo: moment('2016-01-01'), hi: moment('2016-12-31'), comparator: momentComparator}));
+
+                    expect(t.intervals()).toEqual([]);
+                });
+            });
+
+            describe("an interval that ends before the first interval on the entire timeline", function () {
+                it("should be unchanged", function () {
+                    t.remove(interval({lo: moment('2016-01-01'), hi: moment('2016-01-31'), comparator: momentComparator}));
+
+                    expect(t.intervals()).toEqual(intervals);
+                });
+            });
+
+            describe("interval that contains an existing timeline interval", function () {
+                it("should be all intervals except the contained one", function () {
+                    t.remove(interval({lo: moment('2016-03-01'), hi: moment('2016-04-01'), comparator: momentComparator}));
+
+                    expect(t.intervals()).toEqual([
+                        interval({lo: moment('2016-02-23'), hi: moment('2016-02-25')}),
+                        interval({lo: moment('2016-05-23'), hi: moment('2016-05-25')})
                     ]);
                 });
             });

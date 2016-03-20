@@ -60,10 +60,16 @@
             );
         };
 
+        const remove = function (interval) {
+            intervals = intervals.filter(function (existingInterval) {
+                return !(interval.startsBefore(existingInterval) && interval.endsAfter(existingInterval));
+            });
+        };
 
         return Object.freeze({
             intervals: getIntervals,
-            insert
+            insert,
+            remove
         });
     };
 }());
