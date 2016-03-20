@@ -15,16 +15,16 @@
         };
 
         const insert = function (anInterval) {
-            intervals.sort(function (interval, other) {
-                return interval.compare(other);
+            intervals.sort(function (anInterval, other) {
+                return interval(anInterval).compare(interval(other));
             });
 
             const insertionStartIndex = intervals
-                .filter((interval) => anInterval.takesPlaceAfter(interval))
+                .filter((other) => interval(anInterval).takesPlaceAfter(interval(other)))
                 .length;
 
             const overlapCount = intervals
-                .filter((interval) => anInterval.overlaps(interval) || anInterval.meets(interval))
+                .filter((other) => interval(anInterval).overlaps(interval(other)) || interval(anInterval).meets(interval(other)))
                 .length;
 
             const lo = (function () {
@@ -34,7 +34,7 @@
 
                 const clampedInsertionIndex = Math.min(insertionStartIndex, intervals.length - 1);
 
-                const earlierInterval = anInterval.startsBefore(intervals[clampedInsertionIndex])
+                const earlierInterval = interval(anInterval).startsBefore(interval(intervals[clampedInsertionIndex]))
                     ? anInterval
                     : intervals[insertionStartIndex];
 
@@ -48,7 +48,7 @@
                     return anInterval.hi;
                 }
 
-                const laterInterval = anInterval.endsAfter(intervals[insertionEndIndex])
+                const laterInterval = interval(anInterval).endsAfter(interval(intervals[insertionEndIndex]))
                     ? anInterval
                     : intervals[insertionEndIndex];
 
@@ -58,7 +58,7 @@
             intervals.splice(
                 insertionStartIndex,
                 overlapCount,
-                interval({lo, hi, comparator: anInterval.comparator})
+                {lo, hi, comparator: anInterval.comparator}
             );
         };
 
