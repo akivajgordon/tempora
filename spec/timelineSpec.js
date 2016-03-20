@@ -38,6 +38,24 @@
             it("should have 0 intervals", function () {
                 expect(timeline().intervals().length).toBe(0);
             });
+
+            describe("with a comparator", function () {
+                it("should set the comparator", function () {
+                    const c = sizeComparator;
+                    const tl = timeline({comparator: c});
+
+                    expect(tl.comparator).toBe(c);
+                });
+            });
+
+            describe("with a comparator", function () {
+                it("should set the comparator", function () {
+                    const c = momentComparator;
+                    const tl = timeline({comparator: c});
+
+                    expect(tl.comparator).toBe(c);
+                });
+            });
         });
 
         describe("intervals after inserting", function () {

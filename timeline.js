@@ -5,8 +5,10 @@
 
     const interval = require('./interval.js');
 
-    module.exports = function () {
+    module.exports = function (spec) {
         let intervals = [];
+
+        const comparator = spec && spec.comparator;
 
         const getIntervals = function () {
             return intervals;
@@ -67,6 +69,7 @@
         };
 
         return Object.freeze({
+            comparator: comparator,
             intervals: getIntervals,
             insert,
             remove
