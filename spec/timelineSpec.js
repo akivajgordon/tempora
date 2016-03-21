@@ -270,6 +270,58 @@
                     ]);
                 });
             });
+
+            describe("an array of intervals", function () {
+                it("should equal intervals after removing one-by-one", function () {
+                    const insertingIntervals = [
+                        {lo: 0, hi: 3},
+                        {lo: 5, hi: 10}
+                    ];
+
+                    const removingIntervals = [
+                        {lo: 1, hi: 2},
+                        {lo: 6, hi: 8}
+                    ];
+
+                    const asArrayTimeline = timeline();
+                    asArrayTimeline.insert(insertingIntervals);
+                    asArrayTimeline.remove(removingIntervals);
+
+                    const asOneByOneTimeline = timeline();
+                    asOneByOneTimeline.insert(insertingIntervals);
+                    removingIntervals.forEach(function (interval) {
+                        asOneByOneTimeline.remove(interval);
+                    });
+
+                    expect(asArrayTimeline.intervals()).toEqual(asOneByOneTimeline.intervals());
+                });
+            });
+
+            describe("an array of intervals", function () {
+                it("should equal intervals after removing one-by-one", function () {
+                    const insertingIntervals = [
+                        {lo: 4, hi: 8},
+                        {lo: 10, hi: 20}
+                    ];
+
+                    const removingIntervals = [
+                        {lo: 6, hi: 12},
+                        {lo: 15, hi: 18}
+                    ];
+
+                    const asArrayTimeline = timeline();
+                    asArrayTimeline.insert(insertingIntervals);
+                    asArrayTimeline.remove(removingIntervals);
+
+                    const asOneByOneTimeline = timeline();
+                    asOneByOneTimeline.insert(insertingIntervals);
+                    removingIntervals.forEach(function (interval) {
+                        asOneByOneTimeline.remove(interval);
+                    });
+
+                    expect(asArrayTimeline.intervals()).toEqual(asOneByOneTimeline.intervals());
+                });
+            });
         });
     });
 }());

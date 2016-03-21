@@ -77,7 +77,7 @@
             }
         };
 
-        const remove = function (anInterval) {
+        const removeOne = function (anInterval) {
             const removalStartIndex = intervals
                 .filter((other) => intervaler(anInterval).takesPlaceAfter(intervaler(other)))
                 .length;
@@ -130,6 +130,16 @@
                 removalStartIndex,
                 overlapCount
             ].concat(possibleInsertions.filter((insertion) => insertion)));
+        };
+
+        const remove = function (anInterval) {
+            if (Array.isArray(anInterval)) {
+                anInterval.forEach(function (i) {
+                    removeOne(i);
+                });
+            } else {
+                removeOne(anInterval);
+            }
         };
 
         return Object.freeze({
