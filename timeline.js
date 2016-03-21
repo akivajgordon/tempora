@@ -68,11 +68,6 @@
         };
 
         const remove = function (anInterval) {
-            // intervals = intervals.filter(function (existingInterval) {
-            //     return !(intervaler(anInterval).startsBefore(intervaler(existingInterval))
-            //             && intervaler(anInterval).endsAfter(intervaler(existingInterval)));
-            // });
-
             const removalStartIndex = intervals
                 .filter((other) => intervaler(anInterval).takesPlaceAfter(intervaler(other)))
                 .length;
@@ -119,12 +114,12 @@
                 return null;
             }());
 
-            const insertions = [loInsertion, hiInsertion].filter((insertion) => insertion);
+            const possibleInsertions = [loInsertion, hiInsertion];
 
             Array.prototype.splice.apply(intervals, [
                 removalStartIndex,
                 overlapCount
-            ].concat(insertions));
+            ].concat(possibleInsertions.filter((insertion) => insertion)));
         };
 
         return Object.freeze({
