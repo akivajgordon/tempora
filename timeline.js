@@ -14,17 +14,22 @@
             return intervals;
         };
 
+        const intervaler = function (anInterval) {
+            return interval({lo: anInterval.lo, hi: anInterval.hi, comparator: comparator});
+        };
+
         const insert = function (anInterval) {
             intervals.sort(function (anInterval, other) {
-                return interval(anInterval).compare(interval(other));
+                return intervaler(anInterval).compare(intervaler(other));
             });
 
             const insertionStartIndex = intervals
-                .filter((other) => interval(anInterval).takesPlaceAfter(interval(other)))
+                .filter((other) => intervaler(anInterval).takesPlaceAfter(intervaler(other)))
                 .length;
 
             const overlapCount = intervals
-                .filter((other) => interval(anInterval).overlaps(interval(other)) || interval(anInterval).meets(interval(other)))
+                .filter((other) => intervaler(anInterval).overlaps(intervaler(other))
+                        || intervaler(anInterval).meets(intervaler(other)))
                 .length;
 
             const lo = (function () {
@@ -34,7 +39,7 @@
 
                 const clampedInsertionIndex = Math.min(insertionStartIndex, intervals.length - 1);
 
-                const earlierInterval = interval(anInterval).startsBefore(interval(intervals[clampedInsertionIndex]))
+                const earlierInterval = intervaler(anInterval).startsBefore(intervaler(intervals[clampedInsertionIndex]))
                     ? anInterval
                     : intervals[insertionStartIndex];
 
@@ -48,7 +53,7 @@
                     return anInterval.hi;
                 }
 
-                const laterInterval = interval(anInterval).endsAfter(interval(intervals[insertionEndIndex]))
+                const laterInterval = intervaler(anInterval).endsAfter(intervaler(intervals[insertionEndIndex]))
                     ? anInterval
                     : intervals[insertionEndIndex];
 
@@ -58,14 +63,14 @@
             intervals.splice(
                 insertionStartIndex,
                 overlapCount,
-                {lo, hi, comparator: anInterval.comparator}
+                {lo, hi, comparator}
             );
         };
 
         const remove = function (anInterval) {
             intervals = intervals.filter(function (existingInterval) {
-                return !(interval(anInterval).startsBefore(interval(existingInterval))
-                        && interval(anInterval).endsAfter(interval(existingInterval)));
+                return !(intervaler(anInterval).startsBefore(intervaler(existingInterval))
+                        && intervaler(anInterval).endsAfter(intervaler(existingInterval)));
             });
         };
 

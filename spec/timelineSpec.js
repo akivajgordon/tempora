@@ -81,9 +81,11 @@
 
             describe("size interval", function () {
                 it("should be same as input interval", function () {
-                    t.insert({lo: 's', hi: 'l', comparator: sizeComparator});
+                    const tl = timeline({comparator: sizeComparator});
 
-                    expect(t.intervals()).toEqual([{lo: 's', hi: 'l', comparator: sizeComparator}]);
+                    tl.insert({lo: 's', hi: 'l'});
+
+                    expect(tl.intervals()).toEqual([{lo: 's', hi: 'l', comparator: sizeComparator}]);
                 });
             });
 
@@ -162,10 +164,12 @@
 
             describe("size intervals that meet", function () {
                 it("should join the intervals", function () {
-                    t.insert({lo: 's', hi: 'm', comparator: sizeComparator});
-                    t.insert({lo: 'm', hi: 'l', comparator: sizeComparator});
+                    const tl = timeline({comparator: sizeComparator});
 
-                    expect(t.intervals()).toEqual([
+                    tl.insert({lo: 's', hi: 'm'});
+                    tl.insert({lo: 'm', hi: 'l'});
+
+                    expect(tl.intervals()).toEqual([
                         {lo: 's', hi: 'l', comparator: sizeComparator}
                     ]);
                 });
@@ -180,43 +184,47 @@
                 {lo: moment('2016-05-23'), hi: moment('2016-05-25'), comparator: momentComparator}
             ];
 
+            let tl;
+
             beforeEach(function () {
+                tl = timeline({comparator: momentComparator});
+
                 intervals.forEach(function (interval) {
-                    t.insert(interval);
+                    tl.insert(interval);
                 });
             });
 
             describe("an interval that is not on the timeline", function () {
                 it("should be unchanged", function () {
-                    t.remove({lo: moment('2016-04-13'), hi: moment('2016-04-15'), comparator: momentComparator});
+                    tl.remove({lo: moment('2016-04-13'), hi: moment('2016-04-15')});
 
-                    expect(t.intervals()).toEqual(intervals);
+                    expect(tl.intervals()).toEqual(intervals);
                 });
             });
 
             describe("an interval that overlaps the entire timeline", function () {
                 it("should be empty", function () {
-                    t.remove({lo: moment('2016-01-01'), hi: moment('2016-12-31'), comparator: momentComparator});
+                    tl.remove({lo: moment('2016-01-01'), hi: moment('2016-12-31')});
 
-                    expect(t.intervals()).toEqual([]);
+                    expect(tl.intervals()).toEqual([]);
                 });
             });
 
             describe("an interval that ends before the first interval on the entire timeline", function () {
                 it("should be unchanged", function () {
-                    t.remove({lo: moment('2016-01-01'), hi: moment('2016-01-31'), comparator: momentComparator});
+                    tl.remove({lo: moment('2016-01-01'), hi: moment('2016-01-31')});
 
-                    expect(t.intervals()).toEqual(intervals);
+                    expect(tl.intervals()).toEqual(intervals);
                 });
             });
 
             describe("interval that contains an existing timeline interval", function () {
                 it("should be all intervals except the contained one", function () {
-                    t.remove({lo: moment('2016-03-01'), hi: moment('2016-04-01'), comparator: momentComparator});
+                    tl.remove({lo: moment('2016-03-01'), hi: moment('2016-04-01')});
 
-                    expect(t.intervals()).toEqual([
-                        {lo: moment('2016-02-23'), hi: moment('2016-02-25')},
-                        {lo: moment('2016-05-23'), hi: moment('2016-05-25')}
+                    expect(tl.intervals()).toEqual([
+                        {lo: moment('2016-02-23'), hi: moment('2016-02-25'), comparator: momentComparator},
+                        {lo: moment('2016-05-23'), hi: moment('2016-05-25'), comparator: momentComparator}
                     ]);
                 });
             });
