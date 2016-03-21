@@ -174,6 +174,36 @@
                     ]);
                 });
             });
+
+            describe("an array of simple intervals", function () {
+                it("should be the same as inserting each one-by-one", function () {
+                    const intervals = [{lo: 0, hi: 1}, {lo: 2, hi: 3}];
+
+                    t.insert(intervals);
+
+                    const oneByOneTimeline = timeline();
+                    intervals.forEach(function (interval) {
+                        oneByOneTimeline.insert(interval);
+                    });
+
+                    expect(t.intervals()).toEqual(oneByOneTimeline.intervals());
+                });
+            });
+
+            describe("another array of simple intervals", function () {
+                it("should be the same as inserting each one-by-one", function () {
+                    const intervals = [{lo: 2, hi: 5}, {lo: 10, hi: 20}];
+
+                    t.insert(intervals);
+
+                    const oneByOneTimeline = timeline();
+                    intervals.forEach(function (interval) {
+                        oneByOneTimeline.insert(interval);
+                    });
+
+                    expect(t.intervals()).toEqual(oneByOneTimeline.intervals());
+                });
+            });
         });
 
         describe("intervals after removing", function () {

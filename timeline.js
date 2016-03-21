@@ -18,7 +18,7 @@
             return interval({lo: anInterval.lo, hi: anInterval.hi, comparator: comparator});
         };
 
-        const insert = function (anInterval) {
+        const insertOne = function (anInterval) {
             intervals.sort(function (anInterval, other) {
                 return intervaler(anInterval).compare(intervaler(other));
             });
@@ -65,6 +65,16 @@
                 overlapCount,
                 {lo, hi, comparator}
             );
+        };
+
+        const insert = function (anInterval) {
+            if (Array.isArray(anInterval)) {
+                anInterval.forEach(function (i) {
+                    insertOne(i);
+                });
+            } else {
+                insertOne(anInterval);
+            }
         };
 
         const remove = function (anInterval) {
