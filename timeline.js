@@ -68,10 +68,63 @@
         };
 
         const remove = function (anInterval) {
-            intervals = intervals.filter(function (existingInterval) {
-                return !(intervaler(anInterval).startsBefore(intervaler(existingInterval))
-                        && intervaler(anInterval).endsAfter(intervaler(existingInterval)));
-            });
+            // intervals = intervals.filter(function (existingInterval) {
+            //     return !(intervaler(anInterval).startsBefore(intervaler(existingInterval))
+            //             && intervaler(anInterval).endsAfter(intervaler(existingInterval)));
+            // });
+
+            const removalStartIndex = intervals
+                .filter((other) => intervaler(anInterval).takesPlaceAfter(intervaler(other)))
+                .length;
+
+            const overlapCount = intervals
+                .filter((other) => intervaler(anInterval).overlaps(intervaler(other)))
+                .length;
+
+            const loInsertion = (function () {
+                if (removalStartIndex >= intervals.length || overlapCount === 0) {
+                    return null;
+                }
+
+                const loInterval = intervaler(intervals[removalStartIndex]);
+
+                if (loInterval.startsBefore(intervaler(anInterval))) {
+                    return {
+                        lo: loInterval.lo,
+                        hi: anInterval.lo,
+                        comparator: comparator
+                    };
+                }
+
+                return null;
+            }());
+
+            const hiInsertion = (function () {
+                const removalEndIndex = removalStartIndex + overlapCount - 1;
+
+                if (removalEndIndex >= intervals.length || overlapCount === 0) {
+                    return null;
+                }
+
+                const hiInterval = intervaler(intervals[removalEndIndex]);
+
+                if (hiInterval.endsAfter(intervaler(anInterval))) {
+                    return {
+                        lo: anInterval.hi,
+                        hi: hiInterval.hi,
+                        comparator: comparator
+                    };
+                }
+
+                return null;
+            }());
+
+            const insertions = [loInsertion, hiInsertion].filter((insertion) => insertion);
+
+            Array.prototype.splice.apply(intervals, [
+                removalStartIndex,
+                overlapCount
+            ].concat(insertions));
         };
 
         return Object.freeze({

@@ -228,6 +228,18 @@
                     ]);
                 });
             });
+
+            describe("interval that partially overlaps existing timeline interval", function () {
+                it("should be unoverlapped intervals", function () {
+                    tl.remove({lo: moment('2016-03-01'), hi: moment('2016-03-14')});
+
+                    expect(tl.intervals()).toEqual([
+                        {lo: moment('2016-02-23'), hi: moment('2016-02-25'), comparator: momentComparator},
+                        {lo: moment('2016-03-14'), hi: moment('2016-03-15'), comparator: momentComparator},
+                        {lo: moment('2016-05-23'), hi: moment('2016-05-25'), comparator: momentComparator}
+                    ]);
+                });
+            });
         });
     });
 }());
