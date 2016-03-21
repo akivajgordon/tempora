@@ -6,7 +6,7 @@
     module.exports = {
         eq: (l, r) => l === r,
         lt: function (l, r) {
-            const sizes = ['xs', 's', 'm', 'l', 'xl'];
+            const sizes = ['xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl'];
 
             return sizes.indexOf(l) < sizes.indexOf(r);
         }

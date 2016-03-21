@@ -142,11 +142,20 @@
             }
         };
 
+        const contains = function (anInterval) {
+            return intervals
+                .some(function (interval) {
+                    return intervaler(interval).startsBefore(intervaler(anInterval))
+                            && intervaler(interval).endsAfter(intervaler(anInterval));
+                });
+        };
+
         return Object.freeze({
             comparator: comparator,
             intervals: getIntervals,
             insert,
-            remove
+            remove,
+            contains
         });
     };
 }());

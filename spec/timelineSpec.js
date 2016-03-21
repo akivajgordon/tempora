@@ -323,5 +323,44 @@
                 });
             });
         });
+
+        describe("contains()", function () {
+            describe("an interval in the timeline", function () {
+                it("should be true", function () {
+                    t.insert([{lo: 0, hi: 10}, {lo: 15, hi: 20}]);
+
+                    expect(t.contains({lo: 2, hi: 8})).toBe(true);
+                });
+            });
+
+            describe("an interval not in the timeline", function () {
+                it("should be false", function () {
+                    t.insert([{lo: 0, hi: 10}, {lo: 15, hi: 20}]);
+
+                    expect(t.contains({lo: 11, hi: 12})).toBe(false);
+                });
+            });
+
+            describe("an interval partially in the timeline", function () {
+                it("should be false", function () {
+                    t.insert([{lo: 0, hi: 10}, {lo: 15, hi: 20}]);
+
+                    expect(t.contains({lo: 8, hi: 12})).toBe(false);
+                });
+            });
+
+            describe("a size interval partially in the timeline", function () {
+                it("should be false", function () {
+                    const tl = timeline({comparator: sizeComparator});
+
+                    tl.insert([
+                        {lo: 'xxs', hi: 'm'},
+                        {lo: 'l', hi: 'xxl'}
+                    ]);
+
+                    expect(tl.contains({lo: 's', hi: 'l'})).toBe(false);
+                });
+            });
+        });
     });
 }());
