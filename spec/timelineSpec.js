@@ -3,8 +3,9 @@
 (function () {
     "use strict";
 
-    const timeline = require('../timeline.js');
-    const interval = require('../interval.js');
+    const Tempora = require('..');
+    const timeline = Tempora.timeline;
+    const interval = require('../lib/interval.js');
     const moment = require('moment');
     const sizeComparator = require('./fixtures/sizeComparator.js');
     const momentComparator = require('./fixtures/momentComparator.js');

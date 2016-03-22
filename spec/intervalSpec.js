@@ -4,7 +4,7 @@
     "use strict";
 
     const
-        interval = require('../interval.js'),
+        interval = require('../lib/interval.js'),
         sizeComparator = require('./fixtures/sizeComparator.js'),
         momentComparator = require('./fixtures/momentComparator.js'),
         moment = require('moment'),
