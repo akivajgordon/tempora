@@ -69,10 +69,26 @@ Here's how:
     // => [{lo: 'xs', hi: 's'}, {lo: 'l', hi: 'xxl'}]
     ```
 
-## Install
+## Install & Import
+
+For Node:
 
 ```sh
 npm install tempora
+```
+
+```js
+const Tempora = require('tempora');
+```
+
+and for the browser:
+
+```sh
+bower install tempora
+```
+
+```html
+<script src="bower_components/tempora/dist/tempora.min.js"></script>
 ```
 
 ## Basic Usage
