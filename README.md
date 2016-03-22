@@ -74,7 +74,7 @@ Here's how:
 For Node:
 
 ```sh
-npm install tempora
+npm install git://github.com/akivajgordon/tempora.git
 ```
 
 ```js
@@ -84,7 +84,7 @@ const Tempora = require('tempora');
 and for the browser:
 
 ```sh
-bower install tempora
+bower install git://github.com/akivajgordon/tempora.git
 ```
 
 ```html
@@ -166,11 +166,11 @@ Now you can insert Moment intervals:
 t.insert({lo: moment('2016-03-21'), hi: moment('2016-04-01')});
 ```
 
-### `intervals()`
+### `timeline#intervals()`
 
 Returns an array of intervals on the timeline.
 
-### `insert(interval)`
+### `timeline#insert(interval)`
 
 Insert the interval, `interval`, into the timeline.
 
@@ -193,13 +193,13 @@ t.intervals(); // [{lo: 0, hi: 30}]
 
 Even though three intervals were inserted, they've all been joined into one.
 
-### `insert(intervals)`
+### `timeline#insert(intervals)`
 
 Insert an array of intervals, `intervals`, into the timeline.
 
 This is a convenience to insert multiple intervals at once.
 
-### `remove(interval)`
+### `timeline#remove(interval)`
 
 Remove the interval, `interval`, from the timeline.
 
@@ -210,13 +210,13 @@ An interval is an object as follows:
 | `lo`     | The low endpoint of the interval to be removed.  |
 | `hi`     | The high endpoint of the interval to be removed. |
 
-### `remove(intervals)`
+### `timeline#remove(intervals)`
 
 Remove an array of intervals, `intervals`, from the timeline.
 
 This is a convenience to remove multiple intervals at once.
 
-### `contains(interval)`
+### `timeline#contains(interval)`
 
 Returns a boolean indicating if the timeline contains the entire interval, `interval`.
 
