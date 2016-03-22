@@ -12,7 +12,7 @@
     "uglify-js": "^2.6.2"
   },
   "scripts": {
-    "build": "browserify index.js -t [ babelify ] | uglifyjs - --compress --mangle -o tempora.min.js",
+    "build": "browserify exports.js -t [ babelify ] | uglifyjs - --compress --mangle -o dist/tempora.min.js",
     "test": "jasmine"
   },
   "author": "Akiva Gordon",

@@ -6,11 +6,5 @@
 
     const timeline = require('./lib/timeline.js');
 
-    const Tempora = Object.freeze({timeline});
-
-    if (module && module.exports) {
-        module.exports = Tempora;
-    } else {
-        window.Tempora = Tempora;
-    }
+    module.exports = Object.freeze({timeline});
 }());
