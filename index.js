@@ -1,9 +1,16 @@
 /*jslint es6, node: true */
+/*global window */
 
 (function () {
     "use strict";
 
     const timeline = require('./lib/timeline.js');
 
-    module.exports = Object.freeze({timeline});
+    const Tempora = Object.freeze({timeline});
+
+    if (module && module.exports) {
+        module.exports = Tempora;
+    } else {
+        window.Tempora = Tempora;
+    }
 }());
