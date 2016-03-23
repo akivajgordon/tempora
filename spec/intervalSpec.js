@@ -275,5 +275,45 @@
                 });
             });
         });
+
+        describe("startsWith()", function () {
+            describe("two intervals that don't start together", function () {
+                it("should be false", function () {
+                    const i = interval({lo: 0, hi: 1});
+                    const j = interval({lo: 1, hi: 2});
+
+                    expect(i.startsWith(j)).toBe(false);
+                });
+            });
+
+            describe("two intervals that do start together", function () {
+                it("should be true", function () {
+                    const i = interval({lo: moment('2016-01-01'), hi: moment('2016-02-01'), comparator: momentComparator});
+                    const j = interval({lo: moment('2016-01-01'), hi: moment('2016-03-01'), comparator: momentComparator});
+
+                    expect(i.startsWith(j)).toBe(true);
+                });
+            });
+        });
+
+        describe("endsWith()", function () {
+            describe("two intervals that don't end together", function () {
+                it("should be false", function () {
+                    const i = interval({lo: 0, hi: 1});
+                    const j = interval({lo: 1, hi: 2});
+
+                    expect(i.endsWith(j)).toBe(false);
+                });
+            });
+
+            describe("two intervals that do end together", function () {
+                it("should be true", function () {
+                    const i = interval({lo: moment('2016-01-20'), hi: moment('2016-03-01'), comparator: momentComparator});
+                    const j = interval({lo: moment('2016-01-01'), hi: moment('2016-03-01'), comparator: momentComparator});
+
+                    expect(i.endsWith(j)).toBe(true);
+                });
+            });
+        });
     });
 }());
