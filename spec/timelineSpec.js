@@ -362,6 +362,22 @@
                     expect(tl.contains({lo: 's', hi: 'l'})).toBe(false);
                 });
             });
+
+            describe("an interval that starts at a timeline boundary", function () {
+                it("should be true", function () {
+                    t.insert({lo: 0, hi: 10});
+
+                    expect(t.contains({lo: 0, hi: 1})).toBe(true);
+                });
+            });
+
+            describe("an interval that ends at a timeline boundary", function () {
+                it("should be true", function () {
+                    t.insert({lo: 0, hi: 10});
+
+                    expect(t.contains({lo: 9, hi: 10})).toBe(true);
+                });
+            });
         });
     });
 }());
